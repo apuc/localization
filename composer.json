@@ -15,5 +15,8 @@
     }
   },
   "minimum-stability": "stable",
-  "require": {}
+  "require": {
+    "illuminate/events": "^6.0",
+    "illuminate/database": "^6.0"
+  }
 }
