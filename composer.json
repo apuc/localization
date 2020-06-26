@@ -1,0 +1,19 @@
+{
+  "name": "craft-group/localization",
+  "description": "localization module",
+  "type": "composer-plugin",
+  "license": "mit",
+  "authors": [
+    {
+      "name": "kavalar",
+      "email": "apuc06@mail.ru"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "src\\": "src/"
+    }
+  },
+  "minimum-stability": "stable",
+  "require": {}
+}
