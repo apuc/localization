@@ -5,7 +5,9 @@ namespace src\repositories;
 
 
 use src\interfaces\RepositoryInterface;
+use src\models\Translate;
 use src\traits\Lang;
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 /**
  * Class DB
@@ -19,6 +21,11 @@ class DB implements RepositoryInterface
      * @var array
      */
     private $config;
+    /**
+     * @var Capsule
+     */
+    private $capsule;
+
 
     /**
      * DB constructor.
@@ -27,7 +34,33 @@ class DB implements RepositoryInterface
     public function __construct(array $config)
     {
         $this->config = $config;
+        $this->capsule = new Capsule;
+
+        $this->connect();
+        $this->boot();
     }
+
+
+    public function connect()
+    {
+        $this->capsule->addConnection([
+            'driver' => $this->config['db']['driver'],
+            'host' => $this->config['db']['host'],
+            'database' => $this->config['db']['database'],
+            'username' => $this->config['db']['username'],
+            'password' => $this->config['db']['password'],
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix' => '',
+        ]);
+        $this->capsule->setAsGlobal();
+    }
+
+    public function boot()
+    {
+        $this->capsule->bootEloquent();
+    }
+
 
     /**
      * @param string $key
@@ -35,10 +68,31 @@ class DB implements RepositoryInterface
      * @param string $domain
      * @return mixed|void
      */
-    public function getTranslate(string $key, string $default='', string $domain='main')
+    public function getTranslate(string $key, string $default='', string $domain='main'): ?string
     {
-        $curr = $this->getCurrentLang();
+        new DB($this->config);
 
-        // TODO: Implement getTranslate() method.
+        $curr = $this->getCurrentLang();
+        $query = ['key'=> $key, 'language'=> $curr, 'category'=> $domain];
+        $table = Translate::where($query)->value('value');
+
+        if($table !== NUll){
+            return $table;
+        }
+
+        return $default;
+    }
+
+
+    public function createTable() {
+        $this->capsule::schema()->create('translate', function ($table) {
+            $table->increments('id');
+            $table->char('language', 100);
+            $table->char('category', 255);
+            $table->char('key');
+            $table->longText('value');
+            $table->integer('status')->unsigned();
+
+        });
     }
 }

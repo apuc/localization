@@ -2,6 +2,8 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 $config = include __DIR__ . '/config/main.php';
+
+
 \src\Localization::run()->setConfig($config);
 
 //$res['main'] =  \src\Localization::run()->__t('some', 'Какой-то текст', 'main');
