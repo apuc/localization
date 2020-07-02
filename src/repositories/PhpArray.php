@@ -46,6 +46,8 @@ class PhpArray implements RepositoryInterface
 
         if ($translate[$key] !== NULL) {
             return $translate[$key] ;
+        } else {
+            return  $default;
         }
     }
 

@@ -1,7 +1,19 @@
 <?php
 
 return [
-    'source' => \src\repositories\PhpArray::class,
+    'source' => \src\repositories\Db::class,
     'path' => 'lang',
-    'currentLangContainer' => 'session'
+    'currentLangContainer' => 'cookie',
+    'defaultLanguage' => 'ru',
+    'cookieName' => '__name',
+    'db' => [
+        'driver' => 'mysql',
+        'host' => 'your database host',
+        'database' => 'database name',
+        'username' => 'name',
+        'password' => 'password',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'prefix' => '',
+    ]
 ];

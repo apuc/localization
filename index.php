@@ -13,3 +13,4 @@ $res =  \src\Localization::run()->__t('some', 'Данные', 'main');
 var_dump($res);
 
 
+

@@ -74,10 +74,15 @@ class DB implements RepositoryInterface
 
         $curr = $this->getCurrentLang();
         $query = ['key'=> $key, 'language'=> $curr, 'category'=> $domain];
+
+        Translate::findOrFail(1);
+
         $table = Translate::where($query)->value('value');
 
         if($table !== NUll){
             return $table;
+        } else {
+            return $default;
         }
 
         return $default;
